@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-const Navbar = () => {
+
+const Navbar = ({ onLoginClick }: { onLoginClick: () => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
@@ -16,9 +17,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLoginClick = () => {
-    router.push('/auth/login');
-  };
+
 
   return (
     <nav
@@ -44,7 +43,7 @@ const Navbar = () => {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 hover:text-blue-600 ${
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 hover:text-green-600 ${
                   isScrolled
                     ? 'text-gray-900'
                     : 'text-white hover:text-blue-300'
@@ -55,7 +54,7 @@ const Navbar = () => {
             ))}
             {/* Login Button */}
             <button
-              onClick={handleLoginClick}
+              onClick={onLoginClick}
               className="bg-[#0FA34A] hover:bg-[#0C8A3E] text-white px-6 py-2 rounded-full font-medium transition-transform duration-300 hover:scale-105 hover:opacity-90 cursor-pointer"
             >
               Login
@@ -98,7 +97,7 @@ const Navbar = () => {
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
+                className="text-gray-900 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item}
@@ -106,7 +105,7 @@ const Navbar = () => {
             ))}
             {/* Mobile Login Button */}
             <button
-              onClick={handleLoginClick}
+              onClick={onLoginClick}
               className="w-full bg-[#0FA34A] hover:bg-[#0C8A3E] text-white px-3 py-2 rounded-full font-medium mt-2 transition-transform duration-300 hover:scale-105 hover:opacity-90"
             >
               Login

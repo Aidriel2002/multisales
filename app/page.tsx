@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Users, Zap, Shield, ArrowRight, Github, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Users, Zap, Shield, ArrowRight, Github, Linkedin, Mail, Phone, MapPin, Facebook } from 'lucide-react';
 import Navbar from '@/app/components/Navbar';
 import Image from "next/image";
 import customer1 from "@/public/customer1.jpg";
 import logo from "@/public/logo.png"
 import Hero from '@/app/components/Hero';
+import LoginPage from '@/app/auth/login/page';
+import Modal from '@/app/components/Modal'
 
 
 // About Section Component
@@ -180,6 +182,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     if (result.success) {
       alert("✅ Message sent successfully!");
       setFormData({ name: "", email: "", message: "" });
+      console.log(result);
     } else {
       alert("❌ Failed to send message. Try again later.");
     }
@@ -212,41 +215,58 @@ const handleSubmit = async (e: React.FormEvent) => {
             <h3 className="text-2xl font-semibold text-gray-900 mb-6">Contact Information</h3>
             
             <div className="space-y-6">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4">
-                  <Mail size={20} />
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">Email</div>
-                  <div className="text-gray-600">multifactorssales@gmail.com</div>
-                </div>
-              </div>
+  {/* Email */}
+  <a 
+    href="mailto:multifactorssales@gmail.com" 
+    className="flex items-center hover:opacity-80 transition"
+  >
+    <div className="w-12 h-12 bg-[#0FA34A] text-white rounded-full flex items-center justify-center mr-4">
+      <Mail size={20} />
+    </div>
+    <div>
+      <div className="font-semibold text-gray-900">Email</div>
+      <div className="text-gray-600">multifactorssales@gmail.com</div>
+    </div>
+  </a>
 
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4">
-                  <Phone size={20} />
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">Phone</div>
-                  <div className="text-gray-600">09177113478</div>
-                </div>
-              </div>
+  {/* Phone */}
+  <a 
+    href="tel:09177113478" 
+    className="flex items-center hover:opacity-80 transition"
+  >
+    <div className="w-12 h-12 bg-[#0FA34A] text-white rounded-full flex items-center justify-center mr-4">
+      <Phone size={20} />
+    </div>
+    <div>
+      <div className="font-semibold text-gray-900">Phone</div>
+      <div className="text-gray-600">09177113478</div>
+    </div>
+  </a>
 
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4">
-                  <MapPin size={20} />
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">Location</div>
-                  <div className="text-gray-600">No. 0005 Juan C. Legaspi Street, Ubaldo D. Laya 9200 Iligan City, Philippines</div>
-                </div>
-              </div>
-            </div>
+  {/* Location */}
+  <a 
+    href="https://www.google.com/maps/place/Multifactors+Sales/@8.2239033,124.250122,17.25z/data=!4m15!1m8!3m7!1s0x3255760e8f444543:0x7412e2e7a2c8016f!2sCrown+Paper+and+Stationery+Warehouse,+Iligan+City,+9200+Lanao+del+Norte!3b1!8m2!3d8.2238923!4d124.2501049!16s%2Fg%2F11b6_8khds!3m5!1s0x3255779c251b23cf:0x3a684bd25b753962!8m2!3d8.224544!4d124.25048!16s%2Fg%2F11s1817vdx?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="flex items-center hover:opacity-80 transition"
+  >
+    <div className="w-12 h-12 bg-[#0FA34A] text-white rounded-full flex items-center justify-center mr-4">
+      <MapPin size={20} />
+    </div>
+    <div>
+      <div className="font-semibold text-gray-900">Location</div>
+      <div className="text-gray-600">
+        No. 0005 Juan C. Legaspi Street, Ubaldo D. Laya 9200 Iligan City, Philippines
+      </div>
+    </div>
+  </a>
+</div>
+
 
             <div className="mt-8">
               <h4 className="font-semibold text-gray-900 mb-4">Follow Us</h4>
               <div className="flex space-x-4">
-                {[Github, Twitter, Linkedin].map((Icon, index) => (
+                {[Github, Facebook, Linkedin].map((Icon, index) => (
                   <a key={index} href="#" className="w-10 h-10 bg-gray-200 hover:bg-blue-600 text-gray-600 hover:text-white rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
                     <Icon size={20} />
                   </a>
@@ -307,7 +327,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg"
+                className="w-full bg-[#0FA34A] cursor-pointer text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg"
               >
                 Send Message
               </button>
@@ -322,7 +342,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 // Footer Component
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="bg-gradient-to-r from-[#042F01] to-[#055B00] text-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
@@ -333,12 +353,12 @@ const Footer = () => {
         height={200} 
         priority
       />
-            <p className="text-gray-400 mb-4">
+            <p className="text-gray-400 mb-4 mt-4">
               Creating exceptional digital experiences that inspire and innovate.
             </p>
             <div className="flex space-x-4">
-              {[Github, Twitter, Linkedin].map((Icon, index) => (
-                <a key={index} href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+              {[Github, Facebook, Linkedin].map((Icon, index) => (
+                <a key={index} href="#" className="text-gray-400 hover:text-white transition-colors duration-200 ">
                   <Icon size={20} />
                 </a>
               ))}
@@ -367,21 +387,11 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Newsletter</h4>
             <p className="text-gray-400 mb-4">Stay updated with our latest projects and insights.</p>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-white"
-              />
-              <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-lg transition-colors duration-200">
-                Subscribe
-              </button>
-            </div>
           </div>
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Portfolio. All rights reserved. Built with passion and innovation.</p>
+          <p>&copy; 2025 Multifactors Sales. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -390,14 +400,22 @@ const Footer = () => {
 
 export default function Home() {
   
+ const [isLoginOpen, setIsLoginOpen] = useState(false);
+
   return (
     <main className="min-h-screen">
-      <Navbar />
-      <Hero />
+      <Navbar onLoginClick={() => setIsLoginOpen(true)} />
+      <Hero onLoginClick={() => setIsLoginOpen(true)}/>
       <About />
       <Projects />
       <Contact />
       <Footer />
+
+
+      {/* Modal with login form */}
+      <Modal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)}>
+        <LoginPage />
+      </Modal>
     </main>
   );
 }
