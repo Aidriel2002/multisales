@@ -1,103 +1,403 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Users, Zap, Shield, ArrowRight, Github, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import Navbar from '@/app/components/Navbar';
 import Image from "next/image";
+import customer1 from "@/public/customer1.jpg";
+import logo from "@/public/logo.png"
+import Hero from '@/app/components/Hero';
+
+
+// About Section Component
+const About = () => {
+  const features = [
+    { icon: <Zap className="w-8 h-8" />, title: "Lightning Fast", description: "Optimized for speed and performance" },
+    { icon: <Shield className="w-8 h-8" />, title: "Secure", description: "Built with security as a top priority" },
+    { icon: <Users className="w-8 h-8" />, title: "Collaborative", description: "Work together seamlessly" }
+  ];
+
+  return (
+    <section id="about" className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">About Our Mission</h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            We&apos;re dedicated to creating exceptional digital experiences that push the boundaries of what&apos;s possible
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div>
+            <h3 className="text-3xl font-bold text-gray-900 mb-6">Innovation at Its Core</h3>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              Our team combines creativity with technical expertise to deliver solutions that not only meet your needs but exceed your expectations. We believe in the power of technology to transform businesses and lives.
+            </p>
+            <p className="text-gray-600 leading-relaxed">
+              From concept to completion, we&apos;re committed to excellence in every project we undertake. Our passion for innovation drives us to explore new possibilities and create meaningful impact.
+            </p>
+          </div>
+          
+          <div className="relative">
+      <div className="aspect-square bg-[#0FA34A] hover:bg-[#0C8A3E] rounded-3xl shadow-2xl transform rotate-6 hover:rotate-3 transition-transform duration-500"></div>
+      <div className="absolute inset-4 rounded-2xl shadow-lg overflow-hidden flex items-center justify-center">
+        <Image
+          src={customer1}
+          alt="customer image"
+          fill
+          priority
+          className="object-cover rounded-2xl"
+        />
+        <div className="absolute inset-0 bg-white/70 rounded-2xl"></div>
+        <div className="relative text-center">
+          <div className="text-4xl font-bold text-gray-900 mb-2">500+</div>
+          <div className="text-gray-700">Projects Completed</div>
+        </div>
+      </div>
+    </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <div key={index} className="text-center group">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl mb-6 group-hover:scale-110 transform transition-transform duration-300">
+                {feature.icon}
+              </div>
+              <h4 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h4>
+              <p className="text-gray-600">{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Projects Section Component
+const Projects = () => {
+  const projects = [
+    {
+      title: "E-Commerce Platform",
+      description: "Modern online shopping experience with advanced features",
+      tech: ["React", "Node.js", "MongoDB"],
+      gradient: "from-pink-500 to-rose-500"
+    },
+    {
+      title: "AI Dashboard",
+      description: "Intelligent analytics and insights platform",
+      tech: ["Vue.js", "Python", "TensorFlow"],
+      gradient: "from-blue-500 to-cyan-500"
+    },
+    {
+      title: "Mobile App",
+      description: "Cross-platform mobile application with native performance",
+      tech: ["React Native", "Firebase", "Redux"],
+      gradient: "from-green-500 to-emerald-500"
+    },
+    {
+      title: "Blockchain Solution",
+      description: "Decentralized application for secure transactions",
+      tech: ["Solidity", "Web3.js", "Ethereum"],
+      gradient: "from-purple-500 to-indigo-500"
+    },
+    {
+      title: "IoT Platform",
+      description: "Connected devices management and monitoring",
+      tech: ["Arduino", "Raspberry Pi", "AWS IoT"],
+      gradient: "from-orange-500 to-red-500"
+    },
+    {
+      title: "AR Experience",
+      description: "Immersive augmented reality application",
+      tech: ["Unity", "ARCore", "C#"],
+      gradient: "from-teal-500 to-blue-500"
+    }
+  ];
+
+  return (
+    <section id="projects" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Projects</h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Explore our portfolio of innovative solutions across various industries and technologies
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project, index) => (
+            <div key={index} className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                <div className={`h-48 bg-gradient-to-br ${project.gradient} relative`}>
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map((tech, i) => (
+                        <span key={i} className="px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs text-white">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="p-6 bg-white">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{project.title}</h3>
+                  <p className="text-gray-600 mb-4">{project.description}</p>
+                  <div className="flex items-center text-blue-600 hover:text-blue-700 transition-colors">
+                    <span className="mr-2">View Details</span>
+                    <ArrowRight size={16} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Contact Section Component
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("/api/sendEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      alert("✅ Message sent successfully!");
+      setFormData({ name: "", email: "", message: "" });
+    } else {
+      alert("❌ Failed to send message. Try again later.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("⚠️ Something went wrong.");
+  }
+};
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  return (
+    <section id="contact" className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Ready to start your next project? Let&apos;s discuss how we can bring your vision to life
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12">
+          <div>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-6">Contact Information</h3>
+            
+            <div className="space-y-6">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4">
+                  <Mail size={20} />
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Email</div>
+                  <div className="text-gray-600">multifactorssales@gmail.com</div>
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4">
+                  <Phone size={20} />
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Phone</div>
+                  <div className="text-gray-600">09177113478</div>
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4">
+                  <MapPin size={20} />
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">Location</div>
+                  <div className="text-gray-600">No. 0005 Juan C. Legaspi Street, Ubaldo D. Laya 9200 Iligan City, Philippines</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h4 className="font-semibold text-gray-900 mb-4">Follow Us</h4>
+              <div className="flex space-x-4">
+                {[Github, Twitter, Linkedin].map((Icon, index) => (
+                  <a key={index} href="#" className="w-10 h-10 bg-gray-200 hover:bg-blue-600 text-gray-600 hover:text-white rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110">
+                    <Icon size={20} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200"
+                  placeholder="Enter your Name"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200"
+                  placeholder="Enter your Email"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={6}
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200 resize-none"
+                  placeholder="Enter your message..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Footer Component
+const Footer = () => {
+  return (
+    <footer className="bg-gray-900 text-white py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-4 gap-8">
+          <div>
+            <Image 
+        src={logo} 
+        alt="Multifactors Logo" 
+        width={200} 
+        height={200} 
+        priority
+      />
+            <p className="text-gray-400 mb-4">
+              Creating exceptional digital experiences that inspire and innovate.
+            </p>
+            <div className="flex space-x-4">
+              {[Github, Twitter, Linkedin].map((Icon, index) => (
+                <a key={index} href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
+                  <Icon size={20} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-4">Quick Links</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li><a href="#about" className="hover:text-white transition-colors duration-200">About</a></li>
+              <li><a href="#projects" className="hover:text-white transition-colors duration-200">Projects</a></li>
+              <li><a href="#contact" className="hover:text-white transition-colors duration-200">Contact</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-4">Services</h4>
+            <ul className="space-y-2 text-gray-400">
+              <li>Web Development</li>
+              <li>Mobile Apps</li>
+              <li>UI/UX Design</li>
+              <li>Consulting</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-4">Newsletter</h4>
+            <p className="text-gray-400 mb-4">Stay updated with our latest projects and insights.</p>
+            <div className="flex">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-white"
+              />
+              <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-lg transition-colors duration-200">
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <p>&copy; 2024 Portfolio. All rights reserved. Built with passion and innovation.</p>
+        </div>
+      </div>
+    </footer>
+  );
+};
 
 export default function Home() {
+  
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    <main className="min-h-screen">
+      <Navbar />
+      <Hero />
+      <About />
+      <Projects />
+      <Contact />
+      <Footer />
+    </main>
   );
 }
