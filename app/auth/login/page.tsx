@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { supabase } from "@/app/lib/supabase/client"
 import { useRouter } from "next/navigation"
-import RegistrationModal from "@/app/auth/registration/page" // Adjust path as needed
+import RegistrationModal from "@/app/auth/registration/page"
 
 
 export default function LoginPage() {
@@ -51,9 +51,7 @@ export default function LoginPage() {
   }
 
   const handleRegistrationSuccess = () => {
-    // You can show a success message or perform other actions
     console.log("Registration successful!")
-    // Optionally refresh the page or redirect
   }
 
   return (
@@ -188,7 +186,6 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Registration Modal */}
       <RegistrationModal
         isOpen={showRegistrationModal}
         onClose={() => setShowRegistrationModal(false)}

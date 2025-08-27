@@ -2,8 +2,8 @@ import "./globals.css"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "MyApp Landing Page",
-  description: "Landing page with login using Supabase",
+  title: "Multifactors Sales",
+  description: "Quotation Management System with Integration",
 }
 
 export default function RootLayout({

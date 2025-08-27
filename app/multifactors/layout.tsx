@@ -1,6 +1,6 @@
-import MultiSidebar from '@/app/components/sidebars/multi-sidebar'
+import MultiSidebar from '../components/sidebars/multi-sidebar'
 
-export default function MultifactorsLayout({
+export default function MultiLayout({
   children,
 }: {
   children: React.ReactNode
