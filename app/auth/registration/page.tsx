@@ -41,35 +41,90 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
     setError(null)
     setSuccess(null)
 
-    // Validate password match
-    if (password !== confirmPassword) {
-      setError("Passwords don't match")
-      setLoading(false)
-      return
-    }
+    try {
+      // Validate input
+      if (!email.trim() || !password.trim() || !firstName.trim() || !lastName.trim()) {
+        setError("All fields are required")
+        setLoading(false)
+        return
+      }
 
-    // Validate password length
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long")
-      setLoading(false)
-      return
-    }
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(email)) {
+        setError("Please enter a valid email address")
+        setLoading(false)
+        return
+      }
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          first_name: firstName,
-          last_name: lastName,
+      // Validate password match
+      if (password !== confirmPassword) {
+        setError("Passwords don't match")
+        setLoading(false)
+        return
+      }
+
+      // Validate password strength
+      if (password.length < 6) {
+        setError("Password must be at least 6 characters long")
+        setLoading(false)
+        return
+      }
+
+      // Clean the data before sending
+      const cleanFirstName = firstName.trim()
+      const cleanLastName = lastName.trim()
+      const cleanEmail = email.trim().toLowerCase()
+
+      console.log('Attempting to create user with:', { 
+        email: cleanEmail, 
+        firstName: cleanFirstName, 
+        lastName: cleanLastName 
+      })
+
+      // Sign up with Supabase
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email: cleanEmail,
+        password: password,
+        options: {
+          data: {
+            first_name: cleanFirstName,
+            last_name: cleanLastName,
+            full_name: `${cleanFirstName} ${cleanLastName}` // Add full name for better compatibility
+          },
         },
-      },
-    })
+      })
 
-    if (error) {
-      setError(error.message)
-    } else {
-      setSuccess("Account created successfully! Please check your email to verify your account.")
+      if (signUpError) {
+        console.error('Supabase signUp error:', signUpError)
+        
+        // Handle specific error cases
+        if (signUpError.message.includes('User already registered')) {
+          setError("An account with this email already exists")
+        } else if (signUpError.message.includes('Invalid email')) {
+          setError("Please enter a valid email address")
+        } else if (signUpError.message.includes('Password should be at least')) {
+          setError("Password must be at least 6 characters long")
+        } else if (signUpError.message.includes('Database error') || signUpError.message.includes('relation') || signUpError.message.includes('column')) {
+          setError("There was a problem creating your account. Please try again later.")
+          // Log the full error for debugging
+          console.error('Database error details:', signUpError)
+        } else {
+          setError(signUpError.message)
+        }
+        setLoading(false)
+        return
+      }
+
+      console.log('User created successfully:', data)
+
+      // Check if email confirmation is required
+      if (data.user && !data.session) {
+        setSuccess("Account created successfully! Please check your email to verify your account.")
+      } else {
+        setSuccess("Account created successfully! You are now logged in.")
+      }
+
       // Call success callback if provided
       if (onSuccess) {
         setTimeout(() => {
@@ -81,24 +136,35 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
           handleClose()
         }, 3000)
       }
-    }
 
-    setLoading(false)
+    } catch (err: any) {
+      console.error('Unexpected error during signup:', err)
+      setError("An unexpected error occurred. Please try again.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleGoogleSignUp = async () => {
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/pages/multifactors/dashboard`
-      }
-    })
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/pages/multifactors/dashboard`
+        }
+      })
 
-    if (error) {
-      setError(error.message)
+      if (error) {
+        console.error('Google OAuth error:', error)
+        setError(error.message)
+      }
+    } catch (err: any) {
+      console.error('Unexpected Google OAuth error:', err)
+      setError("Failed to sign up with Google. Please try again.")
+    } finally {
       setLoading(false)
     }
   }
@@ -109,7 +175,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 transition-opacity"
+        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
         onClick={handleClose}
       />
       
@@ -119,8 +185,9 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
           {/* Close Button */}
           <button
             onClick={handleClose}
-            className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 transition-colors z-10"
             disabled={loading}
+            aria-label="Close modal"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -164,6 +231,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                     className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
                     required
                     disabled={loading}
+                    maxLength={50} // Prevent overly long names
                   />
                 </div>
                 <div>
@@ -179,6 +247,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                     className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
                     required
                     disabled={loading}
+                    maxLength={50} // Prevent overly long names
                   />
                 </div>
               </div>
@@ -196,6 +265,7 @@ export default function RegistrationModal({ isOpen, onClose, onSuccess }: Regist
                   className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200"
                   required
                   disabled={loading}
+                  maxLength={100} // Reasonable email length limit
                 />
               </div>
 

@@ -381,10 +381,6 @@ export default function UserRoleManagement() {
                           <div className="text-sm font-medium text-gray-900">
                             {user.first_name} {user.last_name}
                           </div>
-                          <div className="text-sm text-gray-500">{user.email}</div>
-                          {user.phone && (
-                            <div className="text-xs text-gray-400">{user.phone}</div>
-                          )}
                         </div>
                       </div>
                     </td>
